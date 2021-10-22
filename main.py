@@ -14,18 +14,13 @@ def main():
     os.environ['SDL_VIDEO_CENTERED'] = '1'
 
     imagenAstro = os.path.join('img', 'astronauta.png')
-    navep = pygame.image.load(imagenAstro)
+    astronauta = pygame.image.load(imagenAstro)
 
-
-    x = constantes.x  # posición x na pantalla
-    y = constantes.y  # posición y na pantalla
-    speed = constantes.speed  # cantos pixels se move con cada pulsacion
-
-    pulsar = pygame.key.get_pressed()  # capturamos o evento
-    if pulsar[K_LEFT] and x > 20:  # móvese a esquerda ata un borde da ventana
-        x -= speed
-    if pulsar[K_RIGHT] and x < 950:  # moves a dereita ata o borde da ventana
-        x += speed
+    pulsar = pygame.key.get_pressed()  # capturamos pulsaciones teclas izq/der
+    if pulsar[K_LEFT]:
+        astronauta.move_ip(-5, 0)
+    if pulsar[K_RIGHT]:
+        astronauta.move_ip(5, 0)
 
 
     while True:
