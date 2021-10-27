@@ -3,11 +3,12 @@ import os
 import pygame, sys
 from pygame.locals import *
 
-def main():
-    pygame.init()
+pygame.init()
 
-    screen = pygame.display.set_mode((800,600))
-    pygame.display.set_caption("STRATOS")
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("STRATOS")
+
+def main():
 
     imagenFondo = os.path.join('img', 'cielo.png')
     fondo = pygame.image.load(imagenFondo)
@@ -33,7 +34,13 @@ def main():
 
         screen.blit(imagenAstro, (x, y))  #posicionamos astronauta
 
-
+def mover(self, x=0, y=0):
+    if self.rect.centerx + x >= screen.get_width() or self.rect.centerx + x < 0:
+        return
+    if self.rect.centery + y >= screen.get_height() or self.rect.centery + y < 0:
+        return
+    # Si el movimiento está dentro de los límites de la pantalla, se "recoloca" el centro de la imagen
+    self.rect.center = (self.rect.centerx + x, self.rect.centery + y)
 
 if __name__ == '__main__':
     main()
