@@ -24,11 +24,12 @@ def main():
 
 
     while True:
-        screen.blit(fondo, (0, 0))
-        pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+
+        screen.blit(fondo, (0, 0))
+        pygame.display.update()
 
         screen.blit(imagenAstro, (x, y))  #posicionamos astronauta
 
