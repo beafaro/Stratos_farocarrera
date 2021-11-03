@@ -3,44 +3,61 @@ import os
 import pygame, sys
 from pygame.locals import *
 
-pygame.init()
+import constantes
 
-screen = pygame.display.set_mode((800, 600))
-pygame.display.set_caption("STRATOS")
 
 def main():
+    pygame.init()
+    FPS = 60
+    FramePerSec = pygame.time.Clock()
 
-    imagenFondo = os.path.join('img', 'cielo.png')
+    # tamaño pantalla
+    screen = pygame.display.set_mode((800, 600))
+    # titulo ventana
+    pygame.display.set_caption("STRATOS")
+
+    imagenFondo = os.path.join('img/cielo.png')
     fondo = pygame.image.load(imagenFondo)
     os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-    imagenAstro = os.path.join('img', 'astronauta.png')
-    astronauta = pygame.image.load(imagenAstro)
+    x = constantes.x
+    y = constantes.y
+    velocidad = constantes.speed
 
-    pulsar = pygame.key.get_pressed()  # capturamos pulsaciones teclas izq/der
-    if pulsar[K_LEFT]:
-        astronauta.move_ip(-5, 0)
-    if pulsar[K_RIGHT]:
-        astronauta.move_ip(5, 0)
+    class Jugador(pygame.sprite.Sprite):
+        def __init__(self):
+            super().__init__()
+            self.image = pygame.image.load("img/astronauta.png")
+            self.rect = self.image.get_rect()
+            self.rect.center = (160, 520)
 
+        def mover(self):
+            pulsa = pygame.key.get_pressed()
+            if self.rect.left > 0:
+                if pulsa[K_LEFT]:
+                    self.rect.move_ip(-5, 0)
+            if self.rect.right < 800:
+                if pulsa[K_RIGHT]:
+                    self.rect.move_ip(5, 0)
+
+        def draw(self, surface):
+            surface.blit(self.image, self.rect)
+
+    astronauta = Jugador()
 
     while True:
+        screen.blit(fondo, (0, 0))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+        astronauta.mover()
 
-        screen.blit(fondo, (0, 0))
+        astronauta.draw(screen)
+
         pygame.display.update()
+        FramePerSec.tick(FPS)
 
-        screen.blit(imagenAstro, (x, y))  #posicionamos astronauta
-
-def mover(self, x=0, y=0):
-    if self.rect.centerx + x >= screen.get_width() or self.rect.centerx + x < 0:
-        return
-    if self.rect.centery + y >= screen.get_height() or self.rect.centery + y < 0:
-        return
-    # Si el movimiento está dentro de los límites de la pantalla, se "recoloca" el centro de la imagen
-    self.rect.center = (self.rect.centerx + x, self.rect.centery + y)
 
 if __name__ == '__main__':
     main()
