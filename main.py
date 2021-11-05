@@ -1,8 +1,22 @@
+'''
+    TAREAS
+        hacer fondo
+        hacer mover fondo
+        hacer astronauta
+        colisiones
+        cambiar direcciones
+                --> astronauta debe caer
+                --> objetos moverse de lado
+'''
+
 import os
+import time
 
 import pygame, sys, random
-from pygame.locals import *
 import constantes
+from Objetos import Objeto
+from jugador import Jugador
+
 
 def main():
     pygame.init()
@@ -10,7 +24,9 @@ def main():
     FramePerSec = pygame.time.Clock()
 
     # tamaño pantalla
-    screen = pygame.display.set_mode((800, 600))
+    ancho_pantalla = constantes.SCREEN_WIDTH
+    alto_pantalla = constantes.SCREEN_HEIGHT
+    screen = pygame.display.set_mode((ancho_pantalla, alto_pantalla))
     # titulo ventana
     pygame.display.set_caption("STRATOS")
 
@@ -18,47 +34,15 @@ def main():
     fondo = pygame.image.load(imagenFondo)
     os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-    x = constantes.x
-    y = constantes.y
-    velocidad = constantes.speed
-
-    class Jugador(pygame.sprite.Sprite):
-        def __init__(self):
-            super().__init__()
-            self.image = pygame.image.load("img/astronauta.png")
-            self.rect = self.image.get_rect()
-            self.rect.center = (160, 500)
-
-        def mover(self):
-            pulsa = pygame.key.get_pressed()
-            if self.rect.left > 0:
-                if pulsa[K_LEFT]:
-                    self.rect.move_ip(-5, 0)
-            if self.rect.right < 800:
-                if pulsa[K_RIGHT]:
-                    self.rect.move_ip(5, 0)
-
-        def draw(self, surface):
-            surface.blit(self.image, self.rect)
-
-    class Objeto(pygame.sprite.Sprite):
-        def __init__(self):
-            super().__init__()
-            self.image = pygame.image.load("img/piedra.png")
-            self.rect = self.image.get_rect()
-            self.rect.center = (random.randint(40, 800 - 40), 0)
-
-        def mover(self):
-            self.rect.move_ip(0, 10)
-            if (self.rect.bottom > 600):
-                self.rect.top = 0
-                self.rect.center = (random.randint(30, 370), 0)
-
-        def draw(self, surface):
-            surface.blit(self.image, self.rect)
-
     astronauta = Jugador()
     piedra = Objeto()
+
+    ''' creacion de grupos de sprites, para despues poder colisionar'''
+    enemies = pygame.sprite.Group()
+    enemies.add(piedra)
+    all_sprites = pygame.sprite.Group()
+    all_sprites.add(astronauta)
+    all_sprites.add(piedra)
 
     while True:
         screen.blit(fondo, (0, 0))
@@ -66,11 +50,14 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-        astronauta.mover()
-        piedra.mover()
 
-        astronauta.draw(screen)
-        piedra.draw(screen)
+        if pygame.sprite.spritecollideany(astronauta, enemies):
+            pygame.display.update()
+            for entity in all_sprites:
+                entity.kill()
+            time.sleep(2)
+            pygame.quit()
+            sys.exit()
 
         pygame.display.update()
         FramePerSec.tick(FPS)
