@@ -1,14 +1,12 @@
 import os
 
-import pygame, sys
+import pygame, sys, random
 from pygame.locals import *
-
 import constantes
-
 
 def main():
     pygame.init()
-    FPS = 60
+    FPS = 30
     FramePerSec = pygame.time.Clock()
 
     # tamaño pantalla
@@ -29,7 +27,7 @@ def main():
             super().__init__()
             self.image = pygame.image.load("img/astronauta.png")
             self.rect = self.image.get_rect()
-            self.rect.center = (160, 520)
+            self.rect.center = (160, 500)
 
         def mover(self):
             pulsa = pygame.key.get_pressed()
@@ -43,7 +41,24 @@ def main():
         def draw(self, surface):
             surface.blit(self.image, self.rect)
 
+    class Objeto(pygame.sprite.Sprite):
+        def __init__(self):
+            super().__init__()
+            self.image = pygame.image.load("img/piedra.png")
+            self.rect = self.image.get_rect()
+            self.rect.center = (random.randint(40, 800 - 40), 0)
+
+        def mover(self):
+            self.rect.move_ip(0, 10)
+            if (self.rect.bottom > 600):
+                self.rect.top = 0
+                self.rect.center = (random.randint(30, 370), 0)
+
+        def draw(self, surface):
+            surface.blit(self.image, self.rect)
+
     astronauta = Jugador()
+    piedra = Objeto()
 
     while True:
         screen.blit(fondo, (0, 0))
@@ -52,8 +67,10 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
         astronauta.mover()
+        piedra.mover()
 
         astronauta.draw(screen)
+        piedra.draw(screen)
 
         pygame.display.update()
         FramePerSec.tick(FPS)
