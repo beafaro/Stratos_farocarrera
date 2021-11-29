@@ -9,7 +9,7 @@ class Objeto(pygame.sprite.Sprite):
         self.rect.center = (random.randint(40, 800 - 40), 0)
 
     def mover(self):
-        self.rect.move_ip(0, 10)
+        self.rect.move_ip(0, 5)
         if (self.rect.bottom > 600):
             self.rect.top = 0
             self.rect.center = (random.randint(30, 370), 0)

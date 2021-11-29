@@ -6,7 +6,7 @@ class Jugador(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load("img/astronauta.png")
         self.rect = self.image.get_rect()
-        self.rect.center = (400, 500)
+        self.rect.center = (400, 550)
 
     def mover(self):
         pulsa = pygame.key.get_pressed()

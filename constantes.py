@@ -4,4 +4,5 @@ SCREEN_HEIGHT = 600
 
 x= 400
 y= 540
-speed= 1
+speed=1
+FPS = 30
