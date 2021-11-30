@@ -112,10 +112,18 @@ def main():
             texto_x = screen.get_width() / 2 - texto_rect.width / 2
             texto_y = screen.get_height() / 2 - texto_rect.height / 2
             screen.blit(texto, [texto_x, texto_y])
-
+        else:
+            # Si el juego no acabó, dibujamos lo siguiente.
+            texto = fuente.render("Haz click para terminar el juego", True, WHITE)
+            texto_rect = texto.get_rect()
+            texto_x = screen.get_width() / 2 - texto_rect.width / 2
+            texto_y = screen.get_height() / 2 - texto_rect.height / 2
+            screen.blit(texto, [texto_x, texto_y])
 
         pygame.display.update()
         FramePerSec.tick(constantes.FPS)
+
+        pygame.quit()
 
 if __name__ == '__main__':
     main()
