@@ -3,10 +3,12 @@
         hacer fondo
         hacer mover fondo
         hacer astronauta
-        colisiones
+        colisiones --> cuando colisiona hacer boom y poner sangre
         cambiar direcciones
                 --> astronauta debe caer
                 --> objetos moverse de lado
+        PANTALLA inicial para empezar
+        PANTALLA con game over y puntuación
 '''
 
 import os
@@ -42,7 +44,7 @@ def moverFondo(screen,fondo,velocidad, y):
     screen.blit(fondo, (0, rel_y - fondo.get_rect().height))
     if rel_y < constantes.SCREEN_WIDTH:
         screen.blit(fondo, (0, rel_y))
-    y -= 1# * velocidad  # fondo mas velocidad
+    y -= 1 * velocidad  # fondo mas velocidad
     return y
 
 def main():
@@ -71,6 +73,14 @@ def main():
     velocidad = constantes.speed #inicializamos velocidad desde constante
     y = 0
 
+    '''GAME OVER '''
+    # Esta es la fuente que usaremos para el texto que aparecerá en pantalla (tamaño 36)
+    fuente = pygame.font.Font(None, 36)
+    # Usamos esta variable booleana para avisar que el juego se acabó variable.
+    game_over = False
+    #color para de GAME OVER
+    WHITE = (255, 255, 255)
+
     while True:
         #screen.blit(fondo, (0, 0))
 
@@ -93,6 +103,15 @@ def main():
         #si colisiona astronauta con algun enemigo fin del juego
         if pygame.sprite.spritecollideany(astronauta, enemies):
             finJuego(all_sprites)
+
+        #código para GAME OVER
+        if game_over:
+            # Si el juego finalizó, dibujamos 'el juego se acabó'.
+            texto = fuente.render("GAME OVER", True, WHITE)
+            texto_rect = texto.get_rect()
+            texto_x = screen.get_width() / 2 - texto_rect.width / 2
+            texto_y = screen.get_height() / 2 - texto_rect.height / 2
+            screen.blit(texto, [texto_x, texto_y])
 
 
         pygame.display.update()
