@@ -21,7 +21,6 @@ from jugador import Jugador
 
 def inicializar():
     pygame.init()
-
     # titulo ventana
     pygame.display.set_caption("STRATOS")
 
@@ -54,6 +53,27 @@ def gameOver(screen):
     gameOverRect = gameOverSurf.get_rect()
     gameOverRect.midtop = (400, 300)  # posición de visualización
     screen.blit(gameOverSurf, gameOverRect)
+
+#código para pantalla de pausa
+def paused(screen, WHITE):
+    pausedFont = pygame.font.SysFont("arial.ttf", 54)
+    pausedSurf = pausedFont.render("PAUSED", True, WHITE)
+    pausedRect = pausedSurf.get_rect()
+    pausedRect.midtop = (400, 300) #((ancho_de_pantalla / 2), (altura_de_pantalla / 2))
+    screen.blit(pausedSurf, pausedRect)
+
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+    # gameDisplay.fill (blanco)
+        botón("Continuar", 150, 450, 100, 50, verde, bright_green, Reanudar)
+        botón("Salir", 550, 450, 100, 50, rojo, bright_red, quitgame)
+
+        pygame.display.update()
+
 
 '''MAIN DEL JUEGO'''
 def main():
