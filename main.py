@@ -55,7 +55,9 @@ def gameOver(screen):
     screen.blit(gameOverSurf, gameOverRect)
 
 #código para pantalla de pausa
-def paused(screen, WHITE):
+def paused(screen, WHITE, button):
+    red = (255,0,0) #203,50,52
+    green = (0,143,57)
     pausedFont = pygame.font.SysFont("arial.ttf", 54)
     pausedSurf = pausedFont.render("PAUSED", True, WHITE)
     pausedRect = pausedSurf.get_rect()
@@ -69,8 +71,8 @@ def paused(screen, WHITE):
                 sys.exit()
 
     # gameDisplay.fill (blanco)
-        botón("Continuar", 150, 450, 100, 50, verde, bright_green, Reanudar)
-        botón("Salir", 550, 450, 100, 50, rojo, bright_red, quitgame)
+        button("Continuar", 150, 450, 100, 50, verde, bright_green, Reanudar)
+        button("Salir", 550, 450, 100, 50, rojo, bright_red, gameOver(screen))
 
         pygame.display.update()
 
