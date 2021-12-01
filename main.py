@@ -7,8 +7,8 @@
         cambiar direcciones
                 --> astronauta debe caer
                 --> objetos moverse de lado
-        PANTALLA inicial para empezar
-        PANTALLA con game over y puntuación
+        PANTALLA inicial para empezar --> https://pythonprogramming.net/pause-game-pygame/
+        PANTALLA con game over y puntuación -^
 '''
 
 import os
@@ -39,7 +39,6 @@ def finJuego(all_sprites):
     sys.exit()
 
 def moverFondo(screen,fondo,velocidad, y):
-
     rel_y = y % fondo.get_rect().height
     screen.blit(fondo, (0, rel_y - fondo.get_rect().height))
     if rel_y < constantes.SCREEN_WIDTH:
@@ -47,6 +46,16 @@ def moverFondo(screen,fondo,velocidad, y):
     y -= 1 * velocidad  # fondo mas velocidad
     return y
 
+#código para GAME OVER
+def gameOver(screen):
+    WHITE = (255, 255, 255)
+    gameOverFont = pygame.font.SysFont('arial.ttf', 54)  # Fuente y tamaño final del juego
+    gameOverSurf = gameOverFont.render("GAME OVER", True, WHITE)  # Game over content display
+    gameOverRect = gameOverSurf.get_rect()
+    gameOverRect.midtop = (400, 300)  # posición de visualización
+    screen.blit(gameOverSurf, gameOverRect)
+
+'''MAIN DEL JUEGO'''
 def main():
     inicializar()
     screen = pygame.display.set_mode((constantes.SCREEN_WIDTH, constantes.SCREEN_HEIGHT))
@@ -73,14 +82,6 @@ def main():
     velocidad = constantes.speed #inicializamos velocidad desde constante
     y = 0
 
-    '''GAME OVER '''
-    # Esta es la fuente que usaremos para el texto que aparecerá en pantalla (tamaño 36)
-    fuente = pygame.font.Font(None, 36)
-    # Usamos esta variable booleana para avisar que el juego se acabó variable.
-    game_over = False
-    #color para de GAME OVER
-    WHITE = (255, 255, 255)
-
     while True:
         #screen.blit(fondo, (0, 0))
 
@@ -100,30 +101,13 @@ def main():
             screen.blit(entity.image, entity.rect)
             entity.mover()
 
-        #si colisiona astronauta con algun enemigo fin del juego
+        #si colisiona astronauta con algun enemigo fin del juego con game over
         if pygame.sprite.spritecollideany(astronauta, enemies):
+            gameOver(screen)
             finJuego(all_sprites)
-
-        #código para GAME OVER
-        if game_over:
-            # Si el juego finalizó, dibujamos 'el juego se acabó'.
-            texto = fuente.render("GAME OVER", True, WHITE)
-            texto_rect = texto.get_rect()
-            texto_x = screen.get_width() / 2 - texto_rect.width / 2
-            texto_y = screen.get_height() / 2 - texto_rect.height / 2
-            screen.blit(texto, [texto_x, texto_y])
-        else:
-            # Si el juego no acabó, dibujamos lo siguiente.
-            texto = fuente.render("Haz click para terminar el juego", True, WHITE)
-            texto_rect = texto.get_rect()
-            texto_x = screen.get_width() / 2 - texto_rect.width / 2
-            texto_y = screen.get_height() / 2 - texto_rect.height / 2
-            screen.blit(texto, [texto_x, texto_y])
 
         pygame.display.update()
         FramePerSec.tick(constantes.FPS)
-
-        pygame.quit()
 
 if __name__ == '__main__':
     main()
