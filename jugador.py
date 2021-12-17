@@ -16,7 +16,7 @@ class Jugador(pygame.sprite.Sprite):
         if self.rect.right < 800:
             if pulsa[K_RIGHT]:
                 self.rect.move_ip(5, 0)
-
+#https://www.programacionfacil.org/cursos/pygame/capitulo_9_movimiento_sprites_con_teclado_y_margenes.html
         # if pressed_keys[K_UP]:
             # self.rect.move_ip(0, -5)
         # if pressed_keys[K_DOWN]:

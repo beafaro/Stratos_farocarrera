@@ -14,27 +14,23 @@
 
 import os
 import time
-from signal import pause  # ¿? probar si funciona
 
-import pygame, sys, random
-from pygame import K_p
+import pygame, sys
+from pygame.locals import *
 
 import constantes
 from Objetos import Objeto
 from jugador import Jugador
-
 
 def inicializar():
     pygame.init()
     # titulo ventana
     pygame.display.set_caption("STRATOS")
 
-
 def crearEventoIncrementarVelocidad():
     INC_SPEED = pygame.USEREVENT + 1
     pygame.time.set_timer(INC_SPEED, 1000)
     return INC_SPEED
-
 
 def finJuego(all_sprites):
     pygame.display.update()
@@ -44,7 +40,6 @@ def finJuego(all_sprites):
     pygame.quit()
     sys.exit()
 
-
 def moverFondo(screen, fondo, velocidad, y):
     rel_y = y % fondo.get_rect().height
     screen.blit(fondo, (0, rel_y - fondo.get_rect().height))
@@ -52,7 +47,6 @@ def moverFondo(screen, fondo, velocidad, y):
         screen.blit(fondo, (0, rel_y))
     y -= 1 * velocidad  # fondo mas velocidad
     return y
-
 
 # código para GAME OVER
 def gameOver(screen):
@@ -63,51 +57,18 @@ def gameOver(screen):
     gameOverRect.midtop = (400, 300)  # posición de visualización
     screen.blit(gameOverSurf, gameOverRect)
 
-
 # código para pantalla de pausa con pulsacion de tecla p para pausar-reanudar
-# Si quieres que dure hasta que vuelvas a pulsar p haz
-# un while True: que espere a que vuelvas a pulsar p
 def paused(screen):
     WHITE = (255, 255, 255)
-    key = pygame.key.get_pressed()
-    if key == [K_p]:
-        red = (203, 50, 52)  # 203,50,52-->rojo más suave  #255,0,0-->rojo puro
-        green = (0, 143, 57)
-        pausedFont = pygame.font.SysFont("arial.ttf", 54)  # fuente para texto PAUSA
-        pausedSurf = pausedFont.render("PAUSA", True, WHITE)  # PAUSA en display
-        pausedRect = pausedSurf.get_rect()
-        pausedRect.midtop = (400, 300)  # ((ancho_de_pantalla / 2), (altura_de_pantalla / 2))
-        screen.blit(pausedSurf, pausedRect)
+    pausedFont = pygame.font.SysFont("arial.ttf", 54)  # fuente para texto PAUSA
+    pausedSurf = pausedFont.render("PAUSA", True, WHITE)  # PAUSA en display
+    pausedRect = pausedSurf.get_rect()
+    pausedRect.midtop = (400, 300)  # ((ancho_de_pantalla / 2), (altura_de_pantalla / 2))
+    screen.blit(pausedSurf, pausedRect)
+# otra forma de pausar hasta que el usuario presione una tecla --> os.system("pause")
 
-        pygame.display.update()
-
-# otra forma de pausar hasta que el usuario presione una tecla
-os.system("pause")
-
-''' red = (203,50,52) #203,50,52-->rojo más suave  #255,0,0-->rojo puro
- green = (0,143,57)
- pausedFont = pygame.font.SysFont("arial.ttf", 54) #fuente para texto PAUSA
- pausedSurf = pausedFont.render("PAUSA", True, WHITE) #PAUSA en display
- pausedRect = pausedSurf.get_rect()
- pausedRect.midtop = (400, 300) #((ancho_de_pantalla / 2), (altura_de_pantalla / 2))
- screen.blit(pausedSurf, pausedRect)
-
- while pause:
-     for event in pygame.event.get():
-         if event.type == pygame.QUIT:
-             pygame.quit()
-             sys.exit()
-
- # gameDisplay.fill (blanco)
-
-     #botones continuar jugando o salir del juego
-     button("Continuar", 150, 450, 100, 50, green, unpaused)
-     button("Salir", 550, 450, 100, 50, red, gameOver(screen))
-
-     pygame.display.update()'''
 
 '''MAIN DEL JUEGO'''
-
 
 def main():
     inicializar()
@@ -135,6 +96,8 @@ def main():
     velocidad = constantes.speed  # inicializamos velocidad desde constante
     y = 0
 
+    pause = False
+
     while True:
         # screen.blit(fondo, (0, 0))
 
@@ -146,6 +109,11 @@ def main():
 
             if event.type == pygame.QUIT:
                 sys.exit()
+            #evento para pausar con tecla p
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_PAUSE:
+                    pause = not pause
+                    paused(screen)
 
         # mover fondo en vertical
         y = moverFondo(screen, fondo, velocidad, y)
@@ -160,8 +128,8 @@ def main():
             finJuego(all_sprites)
 
         pygame.display.update()
+        pygame.display.flip()
         FramePerSec.tick(constantes.FPS)
-
 
 if __name__ == '__main__':
     main()
