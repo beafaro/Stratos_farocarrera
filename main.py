@@ -50,22 +50,49 @@ def moverFondo(screen, fondo, velocidad, y):
 
 # código para GAME OVER
 def gameOver(screen):
-    WHITE = (255, 255, 255)
-    gameOverFont = pygame.font.SysFont('arial.ttf', 54)  # Fuente y tamaño final del juego
-    gameOverSurf = gameOverFont.render("GAME OVER", True, WHITE)  # Game over content display
+    RED = (254, 0, 0)
+    gameOverFont = pygame.font.SysFont('arial.ttf', 100)  # Fuente y tamaño final del juego
+    gameOverSurf = gameOverFont.render("GAME OVER", True, RED)  # Game over content display
     gameOverRect = gameOverSurf.get_rect()
     gameOverRect.midtop = (400, 300)  # posición de visualización
     screen.blit(gameOverSurf, gameOverRect)
 
 # código para pantalla de pausa con pulsacion de tecla p para pausar-reanudar
-def paused(screen):
-    WHITE = (255, 255, 255)
-    pausedFont = pygame.font.SysFont("arial.ttf", 54)  # fuente para texto PAUSA
-    pausedSurf = pausedFont.render("PAUSA", True, WHITE)  # PAUSA en display
-    pausedRect = pausedSurf.get_rect()
-    pausedRect.midtop = (400, 300)  # ((ancho_de_pantalla / 2), (altura_de_pantalla / 2))
-    screen.blit(pausedSurf, pausedRect)
-# otra forma de pausar hasta que el usuario presione una tecla --> os.system("pause")
+def pause(screen):
+    YELLOW = (244, 208, 63)
+
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:
+                    paused = False
+                if event.key == pygame.K_x:
+                    pygame.quit()
+                    sys.exit()
+
+        '''TEXTO PARA PAUSA'''
+        pausedFont = pygame.font.SysFont("arial.ttf", 100, False, False)  # fuente para texto PAUSA
+        pausedSurf = pausedFont.render("PAUSA", True, YELLOW)  # PAUSA en display
+        pausedRect = pausedSurf.get_rect()
+        pausedRect.midtop = (400, 250)  # ((ancho_de_pantalla / 2), (altura_de_pantalla / 2))
+        screen.blit(pausedSurf, pausedRect)
+
+        '''TEXTO PARA OPCIONES SEGUIR'''
+        pausedFont2 = pygame.font.SysFont("arial.ttf", 30, False, False)
+        pausedSurf2 = pausedFont2.render("Pulsa S para seguir o X para salir", True, YELLOW)
+        pausedRect2 = pausedSurf2.get_rect()
+        pausedRect2.midtop = (400, 320)
+        screen.blit(pausedSurf2, pausedRect2)
+
+        pygame.display.update()
+
+def puntuacion(screen):
+    YELLOW = (244, 208, 63)
+    puntosFont = pygame.font.SysFont("arial.ttf", 25, True, True)
+    puntosSurf = puntosFont.render("Para pausar pulsa 'p'", True, YELLOW)  # PAUSA en display
+    screen.blit(puntosSurf, (600, 10))
+
 
 
 '''MAIN DEL JUEGO'''
@@ -96,8 +123,6 @@ def main():
     velocidad = constantes.speed  # inicializamos velocidad desde constante
     y = 0
 
-    pause = False
-
     while True:
         # screen.blit(fondo, (0, 0))
 
@@ -110,13 +135,15 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
             #evento para pausar con tecla p
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_PAUSE:
-                    pause = not pause
-                    paused(screen)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    pause(screen)
 
         # mover fondo en vertical
         y = moverFondo(screen, fondo, velocidad, y)
+
+        #mostrar mensaje para pausar
+        puntuacion(screen)
 
         for entity in all_sprites:
             screen.blit(entity.image, entity.rect)
