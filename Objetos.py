@@ -24,6 +24,7 @@ import random
 #https://www.programacionfacil.org/cursos/pygame/capitulo_11_moviento_enemigos_y_fisicas.html
 http://programarcadegames.com/index.php?chapter=introduction_to_sprites&lang=es
 https://www.programacionfacil.org/cursos/pygame/capitulo_10_enemigos_aleatorios_instanciacion_multiple_random.html
+https://unipython.com/invasion-juego-en-pygame/
 
 # para enemigos más rápidos que otros
     # self.velocidad_aleatoria_x = random.randrange(1, 10)
