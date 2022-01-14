@@ -32,14 +32,14 @@ class Objeto(pygame.sprite.Sprite):
         self.img_aleatoria = random.randrange(3)
 
         if self.img_aleatoria == 0:
-            self.image = pygame.transform.scale(pygame.image.load("img/piedra.png").convert(), (140, 90))
-            self.radius = 75
-        if self.img_aleatoria == 1:
             self.image = pygame.transform.scale(pygame.image.load("img/piedra.png").convert(), (70, 45))
             self.radius = 35
-        if self.img_aleatoria == 2:
+        if self.img_aleatoria == 1:
             self.image = pygame.transform.scale(pygame.image.load("img/piedra.png").convert(), (30, 15))
             self.radius = 15
+        if self.img_aleatoria == 2:
+            self.image = pygame.transform.scale(pygame.image.load("img/piedra.png").convert(), (40, 25))
+            self.radius = 25
 
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(800)
@@ -52,3 +52,5 @@ class Objeto(pygame.sprite.Sprite):
         if self.rect.right > 900:
             self.rect.left = 0
             self.rect.center = (0, random.randint(30, 370))
+
+# https://tpec05.blogspot.com/2017/12/pygame-y-la-programacion-orientada.html

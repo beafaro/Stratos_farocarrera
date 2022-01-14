@@ -114,10 +114,19 @@ def main():
     # grupo que contiene todos los elementos
     all_sprites = pygame.sprite.Group()
     all_sprites.add(astronauta)
+
     all_sprites.add(piedra)
     # grupo que contiene los enemigos
+    i= 0
     enemies = pygame.sprite.Group()
-    enemies.add(piedra)
+    piedra = Objeto()
+    for i in range(6):
+
+        enemies.add(piedra)
+        all_sprites.add(piedra)
+        i +=1
+
+
 
     EVENT_INC_SPEED = crearEventoIncrementarVelocidad()
     velocidad = constantes.speed  # inicializamos velocidad desde constante
