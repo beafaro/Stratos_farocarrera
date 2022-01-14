@@ -22,6 +22,9 @@ import random
         surface.blit(self.image, self.rect)
 
 #https://www.programacionfacil.org/cursos/pygame/capitulo_11_moviento_enemigos_y_fisicas.html
+http://programarcadegames.com/index.php?chapter=introduction_to_sprites&lang=es
+https://www.programacionfacil.org/cursos/pygame/capitulo_10_enemigos_aleatorios_instanciacion_multiple_random.html
+
 # para enemigos más rápidos que otros
     # self.velocidad_aleatoria_x = random.randrange(1, 10)
     # self.velocidad_aleatoria_y = random.randrange(1, 10)'''
