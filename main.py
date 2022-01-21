@@ -16,7 +16,6 @@ import os
 import time
 
 import pygame, sys
-from pygame.locals import *
 
 import constantes
 from Objetos import Objeto
@@ -43,10 +42,13 @@ def finJuego(all_sprites):
 def moverFondo(screen, fondo, velocidad, y):
     rel_y = y % fondo.get_rect().height
     screen.blit(fondo, (0, rel_y - fondo.get_rect().height))
-    if rel_y < constantes.SCREEN_WIDTH:
+    if rel_y < constantes.SCREEN_HEIGHT:
         screen.blit(fondo, (0, rel_y))
     y -= 1 * velocidad  # fondo mas velocidad
     return y
+
+
+
 
 # código para GAME OVER
 def gameOver(screen):
