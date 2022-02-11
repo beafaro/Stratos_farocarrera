@@ -199,7 +199,7 @@ def main():
                 if rectanguloAstronauta.colliderect(rectangulosPiedras[i]):
                     gameOver(screen)
                     finJuego()
-
+            https: // www.nachocabanes.com / python / pygame10.php
             #puntos += 10
 
         cantidadPiedrasVisibles = 0
