@@ -14,6 +14,7 @@
 
 import os
 import time
+import random as rand
 
 import pygame, sys
 
@@ -44,7 +45,7 @@ def moverFondo(screen, fondo, velocidad, y):
     screen.blit(fondo, (0, rel_y - fondo.get_rect().height))
     if rel_y < constantes.SCREEN_HEIGHT:
         screen.blit(fondo, (0, rel_y))
-    y -= 1 * velocidad  # fondo mas velocidad
+    y -= 0.5 * velocidad  # fondo mas velocidad
     return y
 
 
@@ -109,10 +110,12 @@ def main():
 
     os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-    astronauta = Jugador()
-    piedra = Objeto()
+    #astronauta = Jugador()
+    #piedra = Objeto()
+    astronauta = pygame.image.load("img/astronauta.png")
+    piedra = pygame.image.load("img/piedra.png")
 
-    ''' creacion de grupos de sprites, para despues poder colisionar'''
+    ''' creacion de grupos de sprites, para despues poder colisionar
     # grupo que contiene todos los elementos
     all_sprites = pygame.sprite.Group()
     all_sprites.add(astronauta)
@@ -123,12 +126,9 @@ def main():
     enemies = pygame.sprite.Group()
     piedra = Objeto()
     for i in range(6):
-
         enemies.add(piedra)
         all_sprites.add(piedra)
-        i +=1
-
-
+        i +=1'''
 
     EVENT_INC_SPEED = crearEventoIncrementarVelocidad()
     velocidad = constantes.speed  # inicializamos velocidad desde constante
@@ -136,6 +136,22 @@ def main():
 
     while True:
         # screen.blit(fondo, (0, 0))
+
+        cantidadPiedras = 10
+        piedrasVisibles = {}
+        velocidadesX = {}
+        velocidadesY = {}
+
+        rectangulosPiedras = {}
+
+
+        for i in range(0, cantidadPiedras+1):
+            rectangulosPiedras[i] = piedra.get_rect()
+            rectangulosPiedras[i].left = rand.randrange(30, 370)
+            rectangulosPiedras[i].top = rand.randrange(10,301)
+            piedrasVisibles[i] = True
+            velocidadesX[i] = 3
+            velocidadesY[i] = 3
 
         # control de eventos
         for event in pygame.event.get():
@@ -156,14 +172,37 @@ def main():
         #mostrar mensaje para pausar
         puntuacion(screen)
 
-        for entity in all_sprites:
+        '''for entity in all_sprites:
             screen.blit(entity.image, entity.rect)
-            entity.mover()
+            entity.mover()'''
+
+        # ---- Actualizar estado ----
+        for i in range(0, cantidadPiedras + 1):
+            rectangulosPiedras[i].left += velocidadesX[i]
+            rectangulosPiedras[i].top += velocidadesY[i]
+            if rectangulosPiedras[i].left < 0 or rectangulosPiedras[i].right > constantes.SCREEN_WIDTH:
+                velocidadesX[i] = -velocidadesX[i]
+            if rectangulosPiedras[i].top < 0 or rectangulosPiedras[i].bottom > constantes.SCREEN_HEIGHT:
+                velocidadesY[i] = -velocidadesY[i]
 
         # si colisiona astronauta con algun enemigo fin del juego con game over
-        if pygame.sprite.spritecollideany(astronauta, enemies):
+        '''if pygame.sprite.spritecollideany(astronauta, enemies):
             gameOver(screen)
-            finJuego(all_sprites)
+            finJuego(all_sprites)'''
+
+        '''# ---- Comprobar colisiones ----
+        for i in range(0, cantidadPiedras + 1):
+            if piedrasVisibles[i]:
+                if astronauta.spritecollideany(rectangulosPiedras[i]):
+                    gameOver(screen)
+                    finJuego()'''
+
+            #puntos += 10
+
+        cantidadPiedrasVisibles = 0
+        for i in range(0, cantidadPiedras + 1):
+            if piedrasVisibles[i]:
+                cantidadPiedrasVisibles = cantidadPiedrasVisibles + 1
 
         pygame.display.update()
         pygame.display.flip()
