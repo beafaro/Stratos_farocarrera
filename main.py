@@ -113,6 +113,9 @@ def main():
     #astronauta = Jugador()
     #piedra = Objeto()
     astronauta = pygame.image.load("img/astronauta.png")
+    rectanguloAstronauta = astronauta.get_rect()
+    rectanguloAstronauta.left = constantes.SCREEN_WIDTH/2
+    rectanguloAstronauta.top = constantes.SCREEN_HEIGHT-50
     piedra = pygame.image.load("img/piedra.png")
 
     ''' creacion de grupos de sprites, para despues poder colisionar
@@ -190,12 +193,12 @@ def main():
             gameOver(screen)
             finJuego(all_sprites)'''
 
-        '''# ---- Comprobar colisiones ----
+        '''# ---- Comprobar colisiones ----'''
         for i in range(0, cantidadPiedras + 1):
             if piedrasVisibles[i]:
-                if astronauta.spritecollideany(rectangulosPiedras[i]):
+                if rectanguloAstronauta.colliderect(rectangulosPiedras[i]):
                     gameOver(screen)
-                    finJuego()'''
+                    finJuego()
 
             #puntos += 10
 
