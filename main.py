@@ -105,7 +105,7 @@ def main():
     screen = pygame.display.set_mode((constantes.SCREEN_WIDTH, constantes.SCREEN_HEIGHT))
     FramePerSec = pygame.time.Clock()
 
-    imagenFondo = os.path.join('img/copia_fondo.png')
+    imagenFondo = os.path.join('img/fondo.png')
     fondo = pygame.image.load(imagenFondo).convert()
 
     os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -199,7 +199,7 @@ def main():
                 if rectanguloAstronauta.colliderect(rectangulosPiedras[i]):
                     gameOver(screen)
                     finJuego()
-            https: // www.nachocabanes.com / python / pygame10.php
+#            https: // www.nachocabanes.com / python / pygame10.php
             #puntos += 10
 
         cantidadPiedrasVisibles = 0
