@@ -16,14 +16,8 @@ import pygame
             self.rect.left = 0
             self.rect.center = (0, random.randint(30, 370))
 
-
     def draw(self, surface):
         surface.blit(self.image, self.rect)
-
-#https://www.programacionfacil.org/cursos/pygame/capitulo_11_moviento_enemigos_y_fisicas.html
-http://programarcadegames.com/index.php?chapter=introduction_to_sprites&lang=es
-https://www.programacionfacil.org/cursos/pygame/capitulo_10_enemigos_aleatorios_instanciacion_multiple_random.html
-https://unipython.com/invasion-juego-en-pygame/
 
 # para enemigos más rápidos que otros
     # self.velocidad_aleatoria_x = random.randrange(1, 10)
@@ -46,8 +40,6 @@ class Objeto(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(800) 
-        
-        
         
         cantidadPiedras = 10
         piedrasVisibles = {}
@@ -74,5 +66,3 @@ class Objeto(pygame.sprite.Sprite):
         if self.rect.right > 900:
             self.rect.left = 0
             self.rect.center = (0, random.randint(30, 370))'''
-
-# https://tpec05.blogspot.com/2017/12/pygame-y-la-programacion-orientada.html

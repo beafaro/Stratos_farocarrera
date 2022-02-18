@@ -1,6 +1,9 @@
 import pygame
 from pygame.locals import *
 
+import constantes
+
+
 class Jugador(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -22,10 +25,6 @@ class Jugador(pygame.sprite.Sprite):
         if self.rect.bottom < 600:
             if pulsa[K_DOWN]:
                 self.rect.move_ip(0, 5)
-#https://www.programacionfacil.org/cursos/pygame/capitulo_9_movimiento_sprites_con_teclado_y_margenes.html
-
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
-
-#https://coderslegacy.com/python/pygame-tutorial-part-2/

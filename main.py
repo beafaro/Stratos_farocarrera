@@ -1,12 +1,7 @@
 '''
     TAREAS
-        hacer fondo
-        hacer mover fondo
         hacer astronauta
         colisiones --> cuando colisiona hacer boom y poner sangre
-        cambiar direcciones
-                --> astronauta debe caer
-                --> objetos moverse de lado
         PANTALLA inicial para empezar
         PANTALLA con game over con boton seguir jugando y guardar su puntuación
         PANTALLA pausa con botones seguir jugando o salir del juego --> guardando su puntuación
@@ -48,10 +43,6 @@ def moverFondo(screen, fondo, velocidad, y):
     y -= 0.5 * velocidad  # fondo mas velocidad
     return y
 
-
-
-
-# código para GAME OVER
 def gameOver(screen):
     RED = (254, 0, 0)
     gameOverFont = pygame.font.SysFont('arial.ttf', 100)  # Fuente y tamaño final del juego
@@ -60,10 +51,9 @@ def gameOver(screen):
     gameOverRect.midtop = (400, 300)  # posición de visualización
     screen.blit(gameOverSurf, gameOverRect)
 
-# código para pantalla de pausa con pulsacion de tecla p para pausar-reanudar
 def pause(screen):
+    # código para pantalla de pausa con pulsacion de tecla p para pausar-reanudar
     YELLOW = (244, 208, 63)
-
     paused = True
     while paused:
         for event in pygame.event.get():
@@ -97,7 +87,6 @@ def puntuacion(screen):
     screen.blit(puntosSurf, (600, 10))
 
 
-
 '''MAIN DEL JUEGO'''
 
 def main():
@@ -110,15 +99,10 @@ def main():
 
     os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-    #astronauta = Jugador()
-    #piedra = Objeto()
-    astronauta = pygame.image.load("img/astronauta.png")
-    rectanguloAstronauta = astronauta.get_rect()
-    rectanguloAstronauta.left = constantes.SCREEN_WIDTH/2
-    rectanguloAstronauta.top = constantes.SCREEN_HEIGHT-50
-    piedra = pygame.image.load("img/piedra.png")
+    astronauta = Jugador()
+    piedra = Objeto()
 
-    ''' creacion de grupos de sprites, para despues poder colisionar
+    #creacion de grupos de sprites, para despues poder colisionar
     # grupo que contiene todos los elementos
     all_sprites = pygame.sprite.Group()
     all_sprites.add(astronauta)
@@ -131,7 +115,7 @@ def main():
     for i in range(6):
         enemies.add(piedra)
         all_sprites.add(piedra)
-        i +=1'''
+        i +=1
 
     EVENT_INC_SPEED = crearEventoIncrementarVelocidad()
     velocidad = constantes.speed  # inicializamos velocidad desde constante
@@ -140,23 +124,8 @@ def main():
     while True:
         # screen.blit(fondo, (0, 0))
 
-        cantidadPiedras = 10
-        piedrasVisibles = {}
-        velocidadesX = {}
-        velocidadesY = {}
 
-        rectangulosPiedras = {}
-
-
-        for i in range(0, cantidadPiedras+1):
-            rectangulosPiedras[i] = piedra.get_rect()
-            rectangulosPiedras[i].left = rand.randrange(30, 370)
-            rectangulosPiedras[i].top = rand.randrange(10,301)
-            piedrasVisibles[i] = True
-            velocidadesX[i] = 3
-            velocidadesY[i] = 3
-
-        # control de eventos
+        #control de eventos
         for event in pygame.event.get():
             # si se produce el evento de incrementar velocidad le sumammos
             if event.type == EVENT_INC_SPEED:
@@ -169,15 +138,30 @@ def main():
                 if event.key == pygame.K_p:
                     pause(screen)
 
+                    '''   cantidadPiedras = 10
+                       piedrasVisibles = {}
+                       velocidadesX = {}
+                       velocidadesY = {}
+
+                       rectangulosPiedras = {}
+
+                       for i in range(0, cantidadPiedras+1):
+                           rectangulosPiedras[i] = piedra.get_rect()
+                           rectangulosPiedras[i].left = rand.randrange(30, 370)
+                           rectangulosPiedras[i].top = rand.randrange(10,301)
+                           piedrasVisibles[i] = True
+                           velocidadesX[i] = 3
+                           velocidadesY[i] = 3'''
+
         # mover fondo en vertical
         y = moverFondo(screen, fondo, velocidad, y)
 
         #mostrar mensaje para pausar
         puntuacion(screen)
 
-        '''for entity in all_sprites:
+        for entity in all_sprites:
             screen.blit(entity.image, entity.rect)
-            entity.mover()'''
+            entity.mover()
 
         # ---- Actualizar estado ----
         for i in range(0, cantidadPiedras + 1):
@@ -189,23 +173,22 @@ def main():
                 velocidadesY[i] = -velocidadesY[i]
 
         # si colisiona astronauta con algun enemigo fin del juego con game over
-        '''if pygame.sprite.spritecollideany(astronauta, enemies):
+        if pygame.sprite.spritecollideany(astronauta, enemies):
             gameOver(screen)
-            finJuego(all_sprites)'''
+            finJuego(all_sprites)
+            #else puntos += 10
 
-        '''# ---- Comprobar colisiones ----'''
+        '''# ---- Comprobar colisiones ----
         for i in range(0, cantidadPiedras + 1):
             if piedrasVisibles[i]:
-                if rectanguloAstronauta.colliderect(rectangulosPiedras[i]):
+                if pygame.sprite.spritecollideany(astronauta, rectangulosPiedras[i]):
                     gameOver(screen)
                     finJuego()
-#            https: // www.nachocabanes.com / python / pygame10.php
-            #puntos += 10
 
         cantidadPiedrasVisibles = 0
         for i in range(0, cantidadPiedras + 1):
             if piedrasVisibles[i]:
-                cantidadPiedrasVisibles = cantidadPiedrasVisibles + 1
+                cantidadPiedrasVisibles = cantidadPiedrasVisibles + 1'''
 
         pygame.display.update()
         pygame.display.flip()
