@@ -1,4 +1,5 @@
 import pygame
+import random
 
 '''class Objeto(pygame.sprite.Sprite):
     def __init__(self):
@@ -16,8 +17,13 @@ import pygame
             self.rect.left = 0
             self.rect.center = (0, random.randint(30, 370))
 
+
     def draw(self, surface):
         surface.blit(self.image, self.rect)
+
+#https://www.programacionfacil.org/cursos/pygame/capitulo_11_moviento_enemigos_y_fisicas.html
+http://programarcadegames.com/index.php?chapter=introduction_to_sprites&lang=es
+https://www.programacionfacil.org/cursos/pygame/capitulo_10_enemigos_aleatorios_instanciacion_multiple_random.html
 
 # para enemigos más rápidos que otros
     # self.velocidad_aleatoria_x = random.randrange(1, 10)
@@ -26,8 +32,8 @@ import pygame
 class Objeto(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        '''self.img_aleatoria = random.randrange(3)
-        
+        self.img_aleatoria = random.randrange(3)
+
         if self.img_aleatoria == 0:
             self.image = pygame.transform.scale(pygame.image.load("img/piedra.png").convert(), (70, 45))
             self.radius = 35
@@ -39,24 +45,7 @@ class Objeto(pygame.sprite.Sprite):
             self.radius = 25
 
         self.rect = self.image.get_rect()
-        self.rect.x = random.randrange(800) 
-        
-        cantidadPiedras = 10
-        piedrasVisibles = {}
-        velocidadesX = {}
-        velocidadesY = {}
-
-        piedra = pygame.image.load("img/piedra.png")
-        rectangulosPiedras = {}
-
-        for i in range(0, cantidadPiedras+1):
-            rectangulosPiedras[i] = piedra.get_rect()
-            rectangulosPiedras[i].left = random.randrange(50,751)
-            rectangulosPiedras[i].top = random.randrange(10,301)
-            piedrasVisibles[i] = True
-            velocidadesX[i] = 3
-            velocidadesY[i] = 3
-
+        self.rect.x = random.randrange(800)
 
     def mover(self):
         self.rect.move_ip(7, 1)
@@ -65,4 +54,6 @@ class Objeto(pygame.sprite.Sprite):
 
         if self.rect.right > 900:
             self.rect.left = 0
-            self.rect.center = (0, random.randint(30, 370))'''
+            self.rect.center = (0, random.randint(30, 370))
+
+# https://tpec05.blogspot.com/2017/12/pygame-y-la-programacion-orientada.html
