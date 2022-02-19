@@ -1,9 +1,6 @@
 import pygame
 from pygame.locals import *
 
-import constantes
-
-
 class Jugador(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
