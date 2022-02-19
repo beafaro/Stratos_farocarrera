@@ -21,7 +21,9 @@ from jugador import Jugador
 
 '''MAIN DEL JUEGO'''
 def main():
-    inicializar()
+    util.Utilidades.inicializar(self=None)
+
+    #Gestion del fondo
     screen = pygame.display.set_mode((constantes.SCREEN_WIDTH, constantes.SCREEN_HEIGHT))
     FramePerSec = pygame.time.Clock()
     imagenFondo = os.path.join('img/fondo.png')
@@ -29,49 +31,53 @@ def main():
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     marcador=0
 
+    # Creamos el jugador
     astronauta = Jugador()
-    #piedra = Objeto()
 
     ''' creacion de grupos de sprites, para despues poder colisionar'''
     # grupo que contiene todos los elementos
     all_sprites = pygame.sprite.Group()
     all_sprites.add(astronauta)
-
     #all_sprites.add(piedra)
-    # grupo que contiene los enemigos
-    i= 0
-    enemies = pygame.sprite.Group()
 
-    for i in range(10):
+
+    # Creamos el grupo que contiene los enemigos
+    numEnemigo = 0
+    enemies = pygame.sprite.Group()
+    for numEnemigo in range(random.randrange(5)):
         piedra = Objeto()
         all_sprites.add(piedra)
         enemies.add(piedra)
         all_sprites.add(piedra)
-        i +=1
+        numEnemigo +=1
 
-    EVENT_INC_SPEED = crearEventoIncrementarVelocidad()
+    # Gestion de velocidad del caida del jugador
+    EVENT_INC_SPEED = util.Utilidades.crearEventoIncrementarVelocidad(self=None)
     velocidad = constantes.speed  # inicializamos velocidad desde constante
-    y = 0
+    posicionFondoY = 0 # Ponemos el fondo al inicio de la imagen
 
+    # Bucle infinito
     while True:
         # control de eventos
         for event in pygame.event.get():
-            # si se produce el evento de incrementar velocidad le sumammos
+            # Si se produce el evento de incrementar velocidad le sumammos 1
             if event.type == EVENT_INC_SPEED:
                 velocidad += 1
 
+            # Evento para salir del juego con la tecla x
             if event.type == pygame.QUIT:
                 sys.exit()
-            #evento para pausar con tecla p
+
+            # Evento para pausar con tecla p
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     util.Utilidades.pause(screen)
 
-        # mover fondo en vertical
-        y = moverFondo(screen, fondo, velocidad, y)
+        # Mover fondo en vertical
+        posicionFondoY = util.Utilidades.moverFondo(screen, fondo, velocidad, posicionFondoY)
 
-        #mostrar mensaje para pausar
-        puntuacion(screen)
+        #Gestion del mensaje de pausar y puntuacion
+        util.Utilidades.puntuacion(screen)
 
         for entity in all_sprites:
             screen.blit(entity.image, entity.rect)
