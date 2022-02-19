@@ -46,11 +46,10 @@ def main():
     # Creamos el grupo que contiene los enemigos
     numEnemigo = 0
     enemies = pygame.sprite.Group()
-    for numEnemigo in range(random.randrange(5)):
+    for numEnemigo in range(random.randrange(4,8)):
         piedra = Objeto()
         all_sprites.add(piedra)
         enemies.add(piedra)
-        all_sprites.add(piedra)
         numEnemigo +=1
 
     # Gestion de velocidad del caida del jugador

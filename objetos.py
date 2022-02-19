@@ -11,12 +11,15 @@ class Objeto(pygame.sprite.Sprite):
         if self.img_aleatoria == 0:
             self.image = pygame.transform.scale(pygame.image.load("img/piedra.png"), (70, 45))
             self.radius = 35
+            self.velocidad = random.randrange(3, 4)
         if self.img_aleatoria == 1:
-            self.image = pygame.transform.scale(pygame.image.load("img/piedra.png"), (30, 15))
-            self.radius = 15
-        if self.img_aleatoria == 2:
             self.image = pygame.transform.scale(pygame.image.load("img/piedra.png"), (40, 25))
             self.radius = 25
+            self.velocidad = random.randrange(5, 6)
+        if self.img_aleatoria == 2:
+            self.image = pygame.transform.scale(pygame.image.load("img/piedra.png"), (30, 15))
+            self.radius = 15
+            self.velocidad = random.randrange(7, 9)
 
 
         self.rect = self.image.get_rect()
@@ -25,7 +28,7 @@ class Objeto(pygame.sprite.Sprite):
         self.rect.x = random.randrange(800)
 
     def mover(self):
-        self.rect.move_ip(7, 1)
+        self.rect.move_ip(self.velocidad, 1)
         if self.rect.bottom > 600:
             self.rect.top = 0
 
