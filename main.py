@@ -16,6 +16,7 @@
 
 import os, constantes, time, pygame, sys
 
+import conexion
 import util
 import random
 from objetos import Objeto
@@ -23,6 +24,7 @@ from jugador import Jugador
 
 '''MAIN DEL JUEGO'''
 def main():
+    conexion.Conexion.create_DB(constantes.FILENAME)
     util.Utilidades.inicializar(self=None)
 
     #Gestion del fondo
@@ -55,10 +57,14 @@ def main():
     # Gestion de velocidad del caida del jugador
     EVENT_INC_SPEED = util.Utilidades.crearEventoIncrementarVelocidad(self=None)
     velocidad = constantes.speed  # inicializamos velocidad desde constante
-    posicionFondoY = 0 # Ponemos el fondo al inicio de la imagen
+    posicionFondoY = constantes.COMIENZO_JUEGO # Ponemos el fondo al inicio de la imagen
 
     # Bucle infinito
+    alternancia = 1
+    finJuego = False;
     while True:
+        alternancia = alternancia * -1
+
         # control de eventos
         for event in pygame.event.get():
             # Si se produce el evento de incrementar velocidad le sumammos 1
@@ -73,9 +79,15 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     util.Utilidades.pause(screen)
+                    # Evento para pausar con tecla p
 
         # Mover fondo en vertical
-        posicionFondoY = util.Utilidades.moverFondo(screen, fondo, velocidad, posicionFondoY)
+        if posicionFondoY > constantes.FINAL_JUEGO:
+            posicionFondoY = util.Utilidades.moverFondo(screen, fondo, velocidad, posicionFondoY)
+        else:
+            posicionFondoY = util.Utilidades.moverFondo(screen, fondo, 0, posicionFondoY)
+            finJuego = True
+
         posicionFondoYPositivo = posicionFondoY*-1
 
         # Analizar dificultad
@@ -87,20 +99,48 @@ def main():
         if posicionFondoYPositivo > constantes.DIFICULTAD_3:
             dificultad = 3
             enemigosSimultaneos = constantes.ENEMIGOS_MAXIMOS_SIMULTANEOS_3
+        if posicionFondoYPositivo > constantes.DIFICULTAD_4:
+            dificultad = 4
+            enemigosSimultaneos = constantes.ENEMIGOS_MAXIMOS_SIMULTANEOS_4
+        if posicionFondoYPositivo > constantes.DIFICULTAD_5:
+            dificultad = 5
+            enemigosSimultaneos = constantes.ENEMIGOS_MAXIMOS_SIMULTANEOS_5
 
+        # Crear enemigos
         if len(enemies.sprites()) < enemigosSimultaneos:
             obj = None
 
-            #Piedras
-            if posicionFondoYPositivo < constantes.DIFICULTAD_2:
+            # Piedras
+            if dificultad == 1:
+                #print("Nivel 1: Creando 0")
                 obj = Objeto(0, dificultad)
 
-            #Aviones
-            if posicionFondoYPositivo > constantes.DIFICULTAD_2:
-                obj = Objeto(1, dificultad)
+            # Piedras y aviones
+            if dificultad == 2:
+                if alternancia < 0:
+                    #print("Nivel 2: Creando 0")
+                    obj = Objeto(0, dificultad)
+                else:
+                    #print("Nivel 2: Creando 1")
+                    obj = Objeto(1, dificultad)
 
             # Aviones
-            if posicionFondoYPositivo > constantes.DIFICULTAD_3:
+            if dificultad == 3:
+                #print("Nivel 3: Creando 1")
+                obj = Objeto(1, dificultad)
+
+            # Aviones y pajaros
+            if dificultad == 4:
+                if alternancia < 0:
+                    #print("Nivel 4: Creando 1")
+                    obj = Objeto(1, dificultad)
+                else:
+                    #print("Nivel 4: Creando 2")
+                    obj = Objeto(2, dificultad)
+
+            # Pajaros
+            if dificultad == 5:
+                #print("Nivel 5: Creando 2")
                 obj = Objeto(2, dificultad)
 
             # Crearlo a la altura del astronauta
@@ -114,10 +154,11 @@ def main():
         for entity in all_sprites:
             screen.blit(entity.image, entity.rect)
 
-            # Si se sale de la pantalla, lo eliminamos como enemigo
-            if not entity.mover():
-                all_sprites.remove(entity)
-                enemies.remove(entity)
+            if (entity.tipo == "astronauta") and finJuego:
+                entity.moverFinJuego()
+            elif not entity.mover(): # Si se sale de la pantalla, lo eliminamos como enemigo
+                    all_sprites.remove(entity)
+                    enemies.remove(entity)
 
 
         #Gestion del mensaje de pausar y puntuacion
@@ -125,8 +166,8 @@ def main():
         
         # si colisiona astronauta con algun enemigo fin del juego con game over
         if pygame.sprite.spritecollideany(astronauta, enemies):
-            util.Utilidades.gameOver(screen)
-            util.Utilidades.finJuego(all_sprites)
+            if util.Utilidades.gameOver(screen, fondo, posicionFondoY, all_sprites, puntuacion) == 1:
+                main()
         elif not pygame.sprite.spritecollideany(astronauta, enemies):
             puntuacion+=1
 
@@ -134,8 +175,7 @@ def main():
         # Observamos si el bloque protagonista ha colisionado con algo.
         lista_impactos = pygame.sprite.spritecollide(astronauta, enemies, True)
         if lista_impactos:
-            util.Utilidades.gameOver(screen)
-            util.Utilidades.finJuego(all_sprites)
+            util.Utilidades.gameOver(screen, fondo, posicionFondoY, all_sprites, puntuacion)
         elif not lista_impactos:
             # Comprobamos la lista de colisiones.
             for piedra in lista_impactos:
@@ -145,6 +185,10 @@ def main():
         pygame.display.update()
         pygame.display.flip()
         FramePerSec.tick(constantes.FPS)
+
+        if finJuego and astronauta.estaEnFinal():
+            if util.Utilidades.gameSuccess(screen, fondo, posicionFondoY, all_sprites, puntuacion) == 1:
+                main()
 
 if __name__ == '__main__':
     main()

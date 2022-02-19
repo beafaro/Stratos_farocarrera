@@ -32,13 +32,13 @@ class Objeto(pygame.sprite.Sprite):
 
         # Avion
         if tipoEnemigo == 1:
-            self.image = pygame.transform.scale(pygame.image.load("img/avion.png"), (40, 25))
+            self.image = pygame.transform.scale(pygame.image.load("img/avion.png"), (70, 45))
             self.velocidad_x = random.randrange(7, 9)
             self.velocidad_y = -1
-            # Avion
 
+        # Pajaro
         if tipoEnemigo == 2:
-            self.image = pygame.transform.scale(pygame.image.load("img/pajaro.png"), (40, 25))
+            self.image = pygame.transform.scale(pygame.image.load("img/pajaro.png"), (30, 15))
             self.velocidad_x = random.randrange(3, 7)
             self.velocidad_y = -2
 
@@ -50,22 +50,20 @@ class Objeto(pygame.sprite.Sprite):
 
     def mover(self):
 
+        # Variamos velocidades en funcion de la dificultad actual
         velocidad_x = self.velocidad_x
         velocidad_y = self.velocidad_y
         if self.dificultad == 2:
             velocidad_x = self.velocidad_x + 2
-        if self.dificultad == 3:
+        if self.dificultad == 4:
             velocidad_x = self.velocidad_x + 4
             velocidad_y = self.velocidad_y + 3
 
         self.rect.move_ip(velocidad_x, velocidad_y)
         if self.rect.bottom > 600:
-            #self.rect.top = 0
             return False
 
         if self.rect.right > 900:
-            #self.rect.left = 0
-            #self.rect.center = (0, random.randint(30, 370))
             return False
 
         return True
