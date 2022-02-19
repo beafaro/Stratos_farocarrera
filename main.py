@@ -31,7 +31,7 @@ def main():
     imagenFondo = os.path.join('img/fondo.png')
     fondo = pygame.image.load(imagenFondo).convert()
     os.environ['SDL_VIDEO_CENTERED'] = '1'
-    marcador=0
+    puntuacion=0
 
     # Creamos el jugador
     astronauta = Jugador()
@@ -76,21 +76,56 @@ def main():
 
         # Mover fondo en vertical
         posicionFondoY = util.Utilidades.moverFondo(screen, fondo, velocidad, posicionFondoY)
+        posicionFondoYPositivo = posicionFondoY*-1
 
-        #Gestion del mensaje de pausar y puntuacion
-        util.Utilidades.puntuacion(screen)
+        # Analizar dificultad
+        dificultad = 1
+        enemigosSimultaneos = constantes.ENEMIGOS_MAXIMOS_SIMULTANEOS_1
+        if posicionFondoYPositivo > constantes.DIFICULTAD_2 :
+            dificultad = 2
+            enemigosSimultaneos = constantes.ENEMIGOS_MAXIMOS_SIMULTANEOS_2
+        if posicionFondoYPositivo > constantes.DIFICULTAD_3:
+            dificultad = 3
+            enemigosSimultaneos = constantes.ENEMIGOS_MAXIMOS_SIMULTANEOS_3
 
+        if len(enemies.sprites()) < enemigosSimultaneos:
+            obj = None
+
+            #Piedras
+            if posicionFondoYPositivo < constantes.DIFICULTAD_2:
+                obj = Objeto(0, dificultad)
+
+            #Aviones
+            if posicionFondoYPositivo > constantes.DIFICULTAD_2:
+                obj = Objeto(1, dificultad)
+
+            # Aviones
+            if posicionFondoYPositivo > constantes.DIFICULTAD_3:
+                obj = Objeto(2, dificultad)
+
+            # Crearlo a la altura del astronauta
+            if astronauta.rect != None:
+                obj.rect.y = astronauta.rect.y + random.randrange(-200, 200)
+
+            all_sprites.add(obj)
+            enemies.add(obj)
+
+        # Mover sprites existentes
         for entity in all_sprites:
             screen.blit(entity.image, entity.rect)
             entity.mover()
 
-        '''# si colisiona astronauta con algun enemigo fin del juego con game over
+
+        #Gestion del mensaje de pausar y puntuacion
+        util.Utilidades.puntuacion(screen, (str(puntuacion).zfill(5)), posicionFondoYPositivo)
+        
+        # si colisiona astronauta con algun enemigo fin del juego con game over
         if pygame.sprite.spritecollideany(astronauta, enemies):
-            gameOver(screen)
-            finJuego(all_sprites)
+            util.Utilidades.gameOver(screen)
+            util.Utilidades.finJuego(all_sprites)
         elif not pygame.sprite.spritecollideany(astronauta, enemies):
-            marcador+=1
-            print(marcador)'''
+            puntuacion+=1
+
 
         # Observamos si el bloque protagonista ha colisionado con algo.
         lista_impactos = pygame.sprite.spritecollide(astronauta, enemies, True)
@@ -100,8 +135,8 @@ def main():
         elif not lista_impactos:
             # Comprobamos la lista de colisiones.
             for piedra in lista_impactos:
-                marcador += 1
-                print(marcador)
+                puntuacion += 1
+                print(puntuacion)
 
         pygame.display.update()
         pygame.display.flip()

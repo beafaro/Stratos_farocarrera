@@ -9,7 +9,7 @@ class Utilidades:
 
     def crearEventoIncrementarVelocidad(self):
         INC_SPEED = pygame.USEREVENT + 1
-        pygame.time.set_timer(INC_SPEED, 1000)
+        pygame.time.set_timer(INC_SPEED, 3000)
         return INC_SPEED
 
 
@@ -34,11 +34,11 @@ class Utilidades:
     def gameOver(screen):
         # código para GAME OVER
         RED = (254, 0, 0)
-        gameOverFont = pygame.font.SysFont('arial.ttf', 100)  # Fuente y tamaño final del juego
-        gameOverSurf = gameOverFont.render("GAME OVER", True, RED)  # Game over content display
-        gameOverRect = gameOverSurf.get_rect()
-        gameOverRect.midtop = (400, 300)  # posición de visualización
-        screen.blit(gameOverSurf, gameOverRect)
+        letra_gameOver = pygame.font.SysFont('arial.ttf', 100)  # Fuente y tamaño final del juego
+        superficie_gameOver = letra_gameOver.render("GAME OVER", True, RED)  # Game over content display
+        rectangulo_gameOver = superficie_gameOver.get_rect()
+        rectangulo_gameOver.midtop = (400, 300)  # posición de visualización
+        screen.blit(superficie_gameOver, rectangulo_gameOver)
 
 
     def pause(screen):
@@ -55,24 +55,26 @@ class Utilidades:
                         sys.exit()
 
             '''TEXTO PARA PAUSA'''
-            pausedFont = pygame.font.SysFont("arial.ttf", 100, False, False)  # fuente para texto PAUSA
-            pausedSurf = pausedFont.render("PAUSA", True, YELLOW)  # PAUSA en display
-            pausedRect = pausedSurf.get_rect()
-            pausedRect.midtop = (400, 250)  # ((ancho_de_pantalla / 2), (altura_de_pantalla / 2))
-            screen.blit(pausedSurf, pausedRect)
+            letra_pausa1 = pygame.font.SysFont("arial.ttf", 100, False, False)  # fuente para texto PAUSA
+            superficie_pausa1 = letra_pausa1.render("PAUSA", True, YELLOW)  # PAUSA en display
+            rectangulo_pausa1 = superficie_pausa1.get_rect()
+            rectangulo_pausa1.midtop = (400, 250)  # ((ancho_de_pantalla / 2), (altura_de_pantalla / 2))
+            screen.blit(superficie_pausa1, rectangulo_pausa1)
 
             '''TEXTO PARA OPCIONES SEGUIR'''
-            pausedFont2 = pygame.font.SysFont("arial.ttf", 30, False, False)
-            pausedSurf2 = pausedFont2.render("Pulsa S para seguir o X para salir", True, YELLOW)
-            pausedRect2 = pausedSurf2.get_rect()
-            pausedRect2.midtop = (400, 320)
-            screen.blit(pausedSurf2, pausedRect2)
+            letra_pausa2 = pygame.font.SysFont("arial.ttf", 30, False, False)
+            superficie_pausa2 = letra_pausa2.render("Pulsa S para seguir o X para salir", True, YELLOW)
+            rectangulo_pausa2 = superficie_pausa2.get_rect()
+            rectangulo_pausa2.midtop = (400, 320)
+            screen.blit(superficie_pausa2, rectangulo_pausa2)
 
             pygame.display.update()
 
 
-    def puntuacion(screen):
+    def puntuacion(screen, texto, dificultad):
         YELLOW = (244, 208, 63)
-        puntosFont = pygame.font.SysFont("arial.ttf", 25, True, True)
-        puntosSurf = puntosFont.render("Para pausar pulsa 'p'", True, YELLOW)  # PAUSA en display
-        screen.blit(puntosSurf, (600, 10))
+        letra_puntuacion = pygame.font.SysFont("arial.ttf", 25, True, True)
+        superficie_puntuacion = letra_puntuacion.render("Para pausar pulsa 'p'. (Puntuación: "+texto+")"+str(dificultad), True, YELLOW)  # PAUSA en display
+        rectangulo_puntuacion = superficie_puntuacion.get_rect()
+        rectangulo_puntuacion.center = (600, 10)
+        screen.blit(superficie_puntuacion, rectangulo_puntuacion)
