@@ -4,6 +4,7 @@ from pygame.locals import *
 class Jugador(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
+        self.tipo = "astronauta"
         self.image = pygame.image.load("img/astronauta.png")
         self.rect = self.image.get_rect()
         self.rect.center = (400, 250)
@@ -22,6 +23,7 @@ class Jugador(pygame.sprite.Sprite):
         if self.rect.bottom < 600:
             if pulsa[K_DOWN]:
                 self.rect.move_ip(0, 5)
+        return True
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)

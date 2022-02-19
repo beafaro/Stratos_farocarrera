@@ -4,7 +4,7 @@ import random
 from constantes import SCREEN_HEIGHT, SCREEN_WIDTH
 
 class Objeto(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, tipoEnemigo, dificultad):
         super().__init__()
         self.tipo = "enemigo"
         self.dificultad = dificultad
@@ -45,17 +45,30 @@ class Objeto(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         #self.rect.x = random.randrange(SCREEN_WIDTH - self.rect.width)
-        #self.rect.y = random.randrange(SCREEN_HEIGHT - self.rect.height)
-        self.rect.x = random.randrange(800)
+        self.rect.y = random.randrange(SCREEN_HEIGHT - self.rect.height)
+        self.rect.x = -50
 
     def mover(self):
-        self.rect.move_ip(self.velocidad, 1)
+
+        velocidad_x = self.velocidad_x
+        velocidad_y = self.velocidad_y
+        if self.dificultad == 2:
+            velocidad_x = self.velocidad_x + 2
+        if self.dificultad == 3:
+            velocidad_x = self.velocidad_x + 4
+            velocidad_y = self.velocidad_y + 3
+
+        self.rect.move_ip(velocidad_x, velocidad_y)
         if self.rect.bottom > 600:
-            self.rect.top = 0
+            #self.rect.top = 0
+            return False
 
         if self.rect.right > 900:
-            self.rect.left = 0
-            self.rect.center = (0, random.randint(30, 370))
+            #self.rect.left = 0
+            #self.rect.center = (0, random.randint(30, 370))
+            return False
+
+        return True
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)

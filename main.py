@@ -46,8 +46,8 @@ def main():
     # Creamos el grupo que contiene los enemigos
     numEnemigo = 0
     enemies = pygame.sprite.Group()
-    for numEnemigo in range(random.randrange(4,8)):
-        piedra = Objeto()
+    for numEnemigo in range(constantes.ENEMIGOS_INICIALES):
+        piedra = Objeto(0, 1) # piedras en dificultad 1
         all_sprites.add(piedra)
         enemies.add(piedra)
         numEnemigo +=1
@@ -113,7 +113,11 @@ def main():
         # Mover sprites existentes
         for entity in all_sprites:
             screen.blit(entity.image, entity.rect)
-            entity.mover()
+
+            # Si se sale de la pantalla, lo eliminamos como enemigo
+            if not entity.mover():
+                all_sprites.remove(entity)
+                enemies.remove(entity)
 
 
         #Gestion del mensaje de pausar y puntuacion
