@@ -10,6 +10,8 @@
         PANTALLA inicial para empezar
         PANTALLA con game over con boton seguir jugando y guardar su puntuación
         PANTALLA pausa con botones seguir jugando o salir del juego --> guardando su puntuación
+        - almacenamento da puntuación por xogador nunha base de datos.
+        - mostrar un listaxe de xogadores segundo máxima puntuación e a data conseguida.
 '''
 
 import os, constantes, time, pygame, sys

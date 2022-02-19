@@ -1,6 +1,8 @@
 import pygame
 import random
 
+from constantes import SCREEN_HEIGHT, SCREEN_WIDTH
+
 class Objeto(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -18,6 +20,8 @@ class Objeto(pygame.sprite.Sprite):
 
 
         self.rect = self.image.get_rect()
+        #self.rect.x = random.randrange(SCREEN_WIDTH - self.rect.width)
+        #self.rect.y = random.randrange(SCREEN_HEIGHT - self.rect.height)
         self.rect.x = random.randrange(800)
 
     def mover(self):
