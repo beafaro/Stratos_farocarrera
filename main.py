@@ -1,19 +1,3 @@
-'''
-    TAREAS
-        hacer fondo
-        hacer mover fondo
-        hacer astronauta
-        colisiones --> cuando colisiona hacer boom y poner sangre
-        cambiar direcciones
-                --> astronauta debe caer
-                --> objetos moverse de lado
-        PANTALLA inicial para empezar
-        PANTALLA con game over con boton seguir jugando y guardar su puntuación
-        PANTALLA pausa con botones seguir jugando o salir del juego --> guardando su puntuación
-        - almacenamento da puntuación por xogador nunha base de datos.
-        - mostrar un listaxe de xogadores segundo máxima puntuación e a data conseguida.
-'''
-
 import os, constantes, time, pygame, sys
 
 import conexion
@@ -67,7 +51,7 @@ def main():
 
         # control de eventos
         for event in pygame.event.get():
-            # Si se produce el evento de incrementar velocidad le sumammos 1
+            # Si se produce el evento de incrementar velocidad le sumamos 1
             if event.type == EVENT_INC_SPEED:
                 velocidad += 1
 
@@ -109,38 +93,30 @@ def main():
         # Crear enemigos
         if len(enemies.sprites()) < enemigosSimultaneos:
             obj = None
-
             # Piedras
             if dificultad == 1:
-                #print("Nivel 1: Creando 0")
                 obj = Objeto(0, dificultad)
 
             # Piedras y aviones
             if dificultad == 2:
                 if alternancia < 0:
-                    #print("Nivel 2: Creando 0")
                     obj = Objeto(0, dificultad)
                 else:
-                    #print("Nivel 2: Creando 1")
                     obj = Objeto(1, dificultad)
 
             # Aviones
             if dificultad == 3:
-                #print("Nivel 3: Creando 1")
                 obj = Objeto(1, dificultad)
 
             # Aviones y pajaros
             if dificultad == 4:
                 if alternancia < 0:
-                    #print("Nivel 4: Creando 1")
                     obj = Objeto(1, dificultad)
                 else:
-                    #print("Nivel 4: Creando 2")
                     obj = Objeto(2, dificultad)
 
             # Pajaros
             if dificultad == 5:
-                #print("Nivel 5: Creando 2")
                 obj = Objeto(2, dificultad)
 
             # Crearlo a la altura del astronauta
@@ -160,7 +136,6 @@ def main():
                     all_sprites.remove(entity)
                     enemies.remove(entity)
 
-
         #Gestion del mensaje de pausar y puntuacion
         util.Utilidades.puntuacion(screen, (str(puntuacion).zfill(5)), posicionFondoYPositivo)
         
@@ -169,7 +144,7 @@ def main():
             if util.Utilidades.gameOver(screen, fondo, posicionFondoY, all_sprites, puntuacion) == 1:
                 main()
         elif not pygame.sprite.spritecollideany(astronauta, enemies):
-            puntuacion+=1
+            puntuacion+=10
 
 
         # Observamos si el bloque protagonista ha colisionado con algo.
@@ -179,7 +154,7 @@ def main():
         elif not lista_impactos:
             # Comprobamos la lista de colisiones.
             for piedra in lista_impactos:
-                puntuacion += 1
+                puntuacion += 10
                 print(puntuacion)
 
         pygame.display.update()

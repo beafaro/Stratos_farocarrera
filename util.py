@@ -10,19 +10,16 @@ class Utilidades:
         # titulo ventana
         pygame.display.set_caption("STRATOS")
 
-
     def crearEventoIncrementarVelocidad(self):
         INC_SPEED = pygame.USEREVENT + 1
         pygame.time.set_timer(INC_SPEED, constantes.TIEMPO_ACTUALIZAR_VELOCIDAD)
         return INC_SPEED
-
 
     def finJuego(all_sprites):
         for entity in all_sprites:
             entity.kill()
         pygame.quit()
         sys.exit()
-
 
     def moverFondo(screen, fondo, velocidad, y):
         rel_y = y % fondo.get_rect().height
@@ -63,7 +60,6 @@ class Utilidades:
 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
-
                     if event.key == pygame.K_RETURN:
                         return nombre
                     elif event.key == pygame.K_BACKSPACE:
@@ -73,17 +69,14 @@ class Utilidades:
                             nombre = nombre + chr(event.key)
                         except Exception as error:
                             nombre = nombre
-
         return nombre
 
     def guardarPuntuacion(nombre, puntuacion):
         conexion.Conexion.db_connect(constantes.FILENAME)
-
         dato = [nombre, puntuacion]
         conexion.Conexion.guardarPuntuacion(dato)
 
     def visualizarPuntuaciones(screen, posicionFondoY, puntuaciones):
-
         if posicionFondoY*-1 < constantes.DIFICULTAD_5:
             color = (244, 208, 63)
         else:
@@ -99,7 +92,6 @@ class Utilidades:
         y = 360
         for x in puntuaciones:
             y = y+20
-
             '''TEXTO PARA OPCIONES'''
             letra_opciones = pygame.font.SysFont("arial.ttf", 30, False, False)
             superficie_opciones = letra_opciones.render(x[0] + " - " +x[1], True, color)
@@ -112,7 +104,6 @@ class Utilidades:
         RED = (254, 0, 0)
         conexion.Conexion.db_connect(constantes.FILENAME)
         puntuaciones = conexion.Conexion.cargarPuntuaciones(self=None)
-
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
@@ -187,7 +178,7 @@ class Utilidades:
 
 
     def pause(screen):
-        # código para pantalla de pausa con pulsacion de tecla p para pausar-reanudar
+        # código para pantalla de pausa con pulsacion de tecla p para pausar
         YELLOW = (244, 208, 63)
         paused = True
         while paused:

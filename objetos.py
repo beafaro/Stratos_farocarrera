@@ -13,18 +13,18 @@ class Objeto(pygame.sprite.Sprite):
         # Piedra
         if tipoEnemigo == 0:
             self.srcImage = "img/piedra.png"
-            self.tamnho_aleatorio = random.randrange(3)
-            if self.tamnho_aleatorio == 0:
+            self.tamanho_aleatorio = random.randrange(3)
+            if self.tamanho_aleatorio == 0:
                 self.image = pygame.transform.scale(pygame.image.load("img/piedra.png"), (70, 45))
                 self.radius = 35
                 self.velocidad_x = random.randrange(5, 6)
                 self.velocidad_y = 1
-            if self.tamnho_aleatorio == 1:
+            if self.tamanho_aleatorio == 1:
                 self.image = pygame.transform.scale(pygame.image.load("img/piedra.png"), (40, 25))
                 self.radius = 25
                 self.velocidad_x = random.randrange(6, 7)
                 self.velocidad_y = 2
-            if self.tamnho_aleatorio == 2:
+            if self.tamanho_aleatorio == 2:
                 self.image = pygame.transform.scale(pygame.image.load("img/piedra.png"), (30, 15))
                 self.radius = 15
                 self.velocidad_x = random.randrange(7, 9)

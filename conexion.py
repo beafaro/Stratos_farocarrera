@@ -8,7 +8,6 @@ from PyQt5.uic.properties import QtGui, QtWidgets
 
 class Conexion():
     def create_DB(filename):
-
         try:
             con = sqlite3.connect(database=filename)
             cur = con.cursor()
@@ -19,7 +18,6 @@ class Conexion():
             ''' creacion de directorios '''
             if not os.path.exists('.\\puntuaciones'):
                 os.mkdir('.\\puntuaciones')
-
         except Exception as error:
             msg = QtWidgets.QMessageBox()
             msg.setWindowTitle("Aviso")
@@ -41,20 +39,10 @@ class Conexion():
         except Exception as error:
             print("Problemas en conexión ", error)
 
-
-    '''
-    Módulos gestión base datos cliente
-    '''
     def guardarPuntuacion(puntuacion):
-        """
-
-        Módulo que recibe datos de un cliente y los carga en la base de datos.
-
-        """
         try:
             query = QtSql.QSqlQuery()
-            query.prepare('INSERT INTO puntuaciones (nombre, puntuacion) '
-                'VALUES (:nombre, :puntuacion)')
+            query.prepare('INSERT INTO puntuaciones (nombre, puntuacion) VALUES (:nombre, :puntuacion)')
             query.bindValue(":nombre", str(puntuacion[0]))
             query.bindValue(":puntuacion", str(puntuacion[1]))
 
@@ -68,9 +56,7 @@ class Conexion():
             print("Problemas al realizar el guardado ", error)
 
     def cargarPuntuaciones(self):
-
         resultados = []
-
         try:
             query = QtSql.QSqlQuery()
             query.prepare("SELECT nombre, puntuacion FROM puntuaciones order by puntuacion desc")
@@ -84,5 +70,4 @@ class Conexion():
                     numRows += 1
         except Exception as error:
             print("Problemas obtener puntuaciones ", error)
-
         return resultados
